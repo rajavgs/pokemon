@@ -78,6 +78,32 @@ window.onload = function() {
         } while(check_collision(pokeball.x, pokeball.y));
 
         pokeball.spritePosition = Math.floor(Math.random() * 4) + 0;// get position from 0-4
+        // console.log(pokeball)
+      
+    //    timer code:
+    const startTime=11;
+     let time=startTime - 1;
+     const countdownEle=document.getElementById("countdown");
+
+     let interval = setInterval(newTimer,1000);
+
+    function newTimer(){
+       let minutes=Math.floor(time / 60);
+    //    console.log(minutes)
+       let seconds=time % 60;
+    
+       minutes = minutes < 10 ? '0' + minutes : minutes;
+
+       seconds = seconds < 10 ? '0' + seconds : seconds;
+
+       countdownEle.innerHTML=`${minutes}:${seconds}`;
+       time --;
+
+       if(time == -1){
+       clearInterval(interval);
+        
+    }
+ } 
     };
 
     /**
@@ -314,4 +340,28 @@ window.onload = function() {
         else if(e.keyCode == "39") player.move("right");
         else if(e.keyCode == "40") player.move("down");
     };
+
+//      const startTime=11;
+//      let time=startTime - 1;
+//      const countdownEle=document.getElementById("countdown");
+
+//      var interval = setInterval(newTimer,1000);
+
+//     function newTimer(){
+//        let minutes=Math.floor(time / 60);
+//        let seconds=time % 60;
+    
+//        minutes = minutes < 10 ? '0' + minutes : minutes;
+
+//        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+//        countdownEle.innerHTML=`${minutes}:${seconds}`;
+//        time --;
+
+//        if(time== -1){
+//        clearInterval(interval);
+        
+//     }
+//  }
 };
+
