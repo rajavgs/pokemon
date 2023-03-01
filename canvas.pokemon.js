@@ -7,6 +7,9 @@ window.onload = function() {
     "use strict";
 
     var canvas = document.getElementById("canvas");
+    var timer=document.querySelector("p");
+    timer.innerHTML="00:10";
+    // canvas.appendChild(timer);
     var ctx = canvas.getContext("2d");
     var w = document.getElementById("canvas").offsetWidth;
     var h = document.getElementById("canvas").offsetHeight;
@@ -72,6 +75,32 @@ window.onload = function() {
         spriteItemDistance: 33
     };
     pokeball.generatePosition = function() {
+
+         // timer code:
+         const startTime=11;
+         let time=startTime - 1;
+         const countdownEle=document.querySelector('p');
+        //  console.log(countdownEle);
+    
+         let interval = setInterval(newTimer,1000);
+        //  console.log(interval);
+    
+        function newTimer(){
+           let minutes=Math.floor(time / 60);
+           let seconds=time % 60;
+        
+           minutes = minutes < 10 ? '0' + minutes : minutes;
+    
+           seconds = seconds < 10 ? '0' + seconds : seconds;
+    
+           countdownEle.innerHTML=`${minutes}:${seconds}`;
+           time --;
+    
+           if(time == -1){
+           clearInterval(interval);
+            
+        }
+     } 
         do {
             pokeball.x = Math.floor(Math.random() * 20) + 1;
             pokeball.y = Math.floor(Math.random() * 16) + 4;
@@ -80,30 +109,6 @@ window.onload = function() {
         pokeball.spritePosition = Math.floor(Math.random() * 4) + 0;// get position from 0-4
         // console.log(pokeball)
       
-    //    timer code:
-    const startTime=11;
-     let time=startTime - 1;
-     const countdownEle=document.getElementById("countdown");
-
-     let interval = setInterval(newTimer,1000);
-
-    function newTimer(){
-       let minutes=Math.floor(time / 60);
-    //    console.log(minutes)
-       let seconds=time % 60;
-    
-       minutes = minutes < 10 ? '0' + minutes : minutes;
-
-       seconds = seconds < 10 ? '0' + seconds : seconds;
-
-       countdownEle.innerHTML=`${minutes}:${seconds}`;
-       time --;
-
-       if(time == -1){
-       clearInterval(interval);
-        
-    }
- } 
     };
 
     /**
@@ -233,15 +238,18 @@ window.onload = function() {
         }
 
         /**
-         * If player finds the coordinates of pokeball the generate new one, play the sound and update the score
+         * If player finds the coordinates of pokeball then generate new one, play the sound and update the score
          */
         if(player.x == pokeball.x && player.y == pokeball.y) { // found a pokeball !! create a new one
             console.log("found a pokeball of "+pokeball.spritePosition+"! Bravo! ");
+            
             pokePick.pause();
             pokePick.currentTime = 0;
+           
             pokePick.play();
             score += 1;
             pokeball.generatePosition();
+
         }
 
         update();
@@ -306,6 +314,19 @@ window.onload = function() {
      */
     function board() {
         ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+        ctx.fillRect(w-460, h-70, 65, 70);
+
+        
+        ctx.font = "18px Arial";
+        ctx.fillStyle = "rgba(255, 255, 255, 1)";
+        ctx.fillText("Timer",w-450, h-40);
+        
+        // ctx.font = "12px Arial";
+        // ctx.fillStyle = "rgba(255, 255, 255, 1)";
+        // ctx.fillText(countdownEle + w-10, h-20);
+        
+
+        ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
         ctx.fillRect(w-100, h-70, 100, 70);
 
         ctx.font = "18px Arial";
@@ -315,6 +336,8 @@ window.onload = function() {
         ctx.font = "14px Arial";
         ctx.fillStyle = "rgba(255, 255, 255, 1)";
         ctx.fillText(score + " poketballs",w-85, h-25);
+
+        
     }
 
     /**
