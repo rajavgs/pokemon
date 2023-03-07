@@ -19,12 +19,20 @@ window.onload = function() {
     var modifier = 100;
     var p = "";
     var score = 0;
+    var lives=3;
+
+    //heartImage
+    var heartImage = new Image();
+    heartImage.onload=function(){
+    assetsLoaded();
+    };
+    heartImage.src="images/heart.png";
 
     //terrain image
     var terrainImage = new Image();
     terrainImage.onload = function () {
-        terrainImageLoaded = true;
-        assetsLoaded();
+    terrainImageLoaded = true;
+    assetsLoaded();
     };
     terrainImage.src = "images/pokemon_terrain.jpg";
 
@@ -86,31 +94,6 @@ window.onload = function() {
         pokeball.spritePosition = Math.floor(Math.random() * 4) + 0;// get position from 0-4
         console.log(pokeball.spritePosition)
 
-    //     timer();
-    //     var time = 11;
-    //     function timer(){
-    //        setTimeout(function(){
-                   
-    //         let minutes=Math.floor(time / 60);
-    //         let seconds=time % 60;
-              
-              
-    //         var timerDiv=document.getElementById("timer");
-              
-    //            minutes = minutes < 10 ? '0' + minutes : minutes;
-    
-    //           seconds = seconds < 10 ? '0' + seconds : seconds;
-    //           timerDiv.innerHTML=`${minutes}:${seconds}`;
-
-    //            time --;
-    //            timerDiv.innerHTML= time;
-    //            timer();
-    //        },1000)
-        
-    //        if(time == -1){
-    //         clearTimeout(time);
-    //     }
-    // }
     };
 
     /**
@@ -245,31 +228,6 @@ window.onload = function() {
         if(player.x == pokeball.x && player.y == pokeball.y) { // found a pokeball !! create a new one
             console.log("found a pokeball of "+pokeball.spritePosition+"! Bravo! ");
            
-    //      const startTime=11;
-    //      let time=startTime - 1;
-    //     //  const countdownEle=document.querySelector('p');
-    //     //  console.log(countdownEle);
-    
-    //      let intervalNew = setInterval(newTimer,1000);
-    //     //  console.log(interval);
-    
-    //     function newTimer(){
-    //        let minutes=Math.floor(time / 60);
-    //        let seconds=time % 60;
-        
-    //        minutes = minutes < 10 ? '0' + minutes : minutes;
-    
-    //        seconds = seconds < 10 ? '0' + seconds : seconds;
-    
-    //        countdownEle.innerHTML=`${minutes}:${seconds}`;
-    //        time --;
-    
-    //        if(time == -1){
-    //        clearInterval(intervalNew);
-            
-    //     }
-    //  } 
-            
             pokePick.pause();
             pokePick.currentTime = 0;
             pokePick.play();
@@ -279,47 +237,38 @@ window.onload = function() {
             //remove clearInterval and add firstTimer
         if(time == 9){
             clearInterval(interval)
-            // startCountdown();
             firstTimer ();
         }
         if(time == 8){
             clearInterval(interval)
-            // startCountdown();
             firstTimer ();
         }
         if(time == 7){
             clearInterval(interval)
-            // startCountdown();
             firstTimer ();
         }
         if(time == 6){
             clearInterval(interval)
-            // startCountdown();
             firstTimer ();
         }
         if(time == 5){
             clearInterval(interval)
-            // startCountdown();
             firstTimer ();
         }
         if(time == 4){
             clearInterval(interval)
-            // startCountdown();
             firstTimer ();
         }
         if(time == 3){
             clearInterval(interval)
-            // startCountdown();
             firstTimer ();
         }
         if(time == 2){
             clearInterval(interval)
-            // startCountdown();
             firstTimer ();
         }
         if(time == 1){
             clearInterval(interval)
-            // startCountdown();
             firstTimer ();
         }
         if(time == -1){
@@ -335,13 +284,12 @@ window.onload = function() {
     var interval;
     var time;
  
- //    const startCountdown=() => {
       const firstTimer =() => {
  
       const startTime=11;
       time=startTime - 1;
      
-      const countdownEle=document.querySelector("P");
+      const countdownEle=document.querySelector("p");
       
  
       interval = setInterval(newTimer,1000);
@@ -363,24 +311,33 @@ window.onload = function() {
 
         if(time == -2){
            clearInterval(interval);
- 
-           alert("your time is out");
-           var a=confirm("Your time is out,you lose one life or continue the game");
+
+           alert("you are out of time");
+              
+
+           var a=confirm("You are out of time,you lose one life to continue the game");
            if(a){
-             alert("you lose one life")
-          // pauseCountdown ();
-            firstTimer ();
+
+             alert("you lose one life");
+             firstTimer ();
+             drawHearts();
+             
+
            }
              else{
-             alert("You start a new game")
-         //    pauseCountdown();
-             firstTimer ();
-            }
+               alert("You start a new game");
+               firstTimer ();
+               drawHearts();
+
+           }
          }
-         console.log("iam 1",countdownEle)
+         console.log("time",countdownEle)
       }
     };
- firstTimer ();
+    drawHearts();
+
+    firstTimer ();
+
 
     /**
      * Handle all the updates of the canvas and creates the objects
@@ -401,6 +358,7 @@ window.onload = function() {
         console.log("y:",(player.y * objectSizes)/objectSizes);
         console.log("x",(player.x * objectSizes)/objectSizes);
         ctx.drawImage(playerImage, player.direction[player.currentDirection].x, player.direction[player.currentDirection].y, objectSizes-2, objectSizes, player.x * objectSizes, player.y * objectSizes, objectSizes, objectSizes);
+        drawHearts();  
     }
 
     /**
@@ -476,7 +434,15 @@ window.onload = function() {
         if(terrainImageLoaded == true && houseImageLoaded == true && pokeballImageLoaded == true && playerImageLoaded == true) {
             pokeball.generatePosition();
             update();
+            drawHearts();
         }
+    }
+
+    function drawHearts(){
+        for(var i=0;i<=lives;i++){
+            ctx.drawImage(heartImage,canvas.width-60*i,5,60,45);
+        }
+        // timer();
     }
 
     /**
